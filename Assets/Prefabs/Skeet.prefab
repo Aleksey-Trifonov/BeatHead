@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5392037488702842634}
   - component: {fileID: 5284604547192204526}
   - component: {fileID: 5882243499980021719}
+  - component: {fileID: 3978339343998045622}
   m_Layer: 0
   m_Name: Skeet
   m_TagString: Untagged
@@ -206,3 +207,16 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!135 &3978339343998045622
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7934075970727290307}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.7
+  m_Center: {x: 0, y: 0, z: 0}

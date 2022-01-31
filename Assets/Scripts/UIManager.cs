@@ -76,16 +76,4 @@ public class UIManager : MonoBehaviour
     {
         focusImage.fillAmount = focusValue;
     }
-
-    public bool IsSkeetInCrosshairs(GameObject skeetGo)
-    {
-        var skeetScreenPos = mainCamera.WorldToScreenPoint(skeetGo.transform.position);
-        var distance = Vector2.Distance(skeetScreenPos, crosshairsScreenPos);
-        Debug.Log(distance);
-        if (distance < crosshairsWidth)
-        {
-            return true;
-        }
-        return false;
-    }
 }

@@ -43,12 +43,11 @@ public class SkeetLauncher : MonoBehaviour
         skeetGo.transform.SetPositionAndRotation(launchPoint.position, launchPoint.rotation);
     }
 
-    public GameObject LaunchSkeet()
+    public void LaunchSkeet()
     {
         skeetTr.enabled = true;
         skeetRb.isKinematic = false;
         Vector3 forceDirection = gameplaySettings.LaunchForce * skeetGo.transform.forward;
         skeetRb.AddForceAtPosition(forceDirection, skeetGo.transform.position + skeetGo.transform.forward * 10, ForceMode.Impulse);
-        return skeetGo;
     }
 }

@@ -15,7 +15,6 @@ public class GameplayManager : MonoBehaviour
     private GameplaySettingsSO gameplaySettings;
     private float remainingSkeetTime = 0f;
     private float skeetFocusPercent = 0f;
-    private GameObject activeSkeet;
 
     public static GameplayManager Instance 
     {   get 
@@ -33,6 +32,7 @@ public class GameplayManager : MonoBehaviour
     private void OnEnable()
     {
         UIManager.Instance.EventLaunchSkeetClick += OnLaunchSkeetClick;
+        PlayerController.Instace.EventSkeetInFocus += OnSkeetInFocus;
     }
 
     private void OnDisable()
@@ -40,6 +40,11 @@ public class GameplayManager : MonoBehaviour
         if (UIManager.Instance != null)
         {
             UIManager.Instance.EventLaunchSkeetClick -= OnLaunchSkeetClick;
+        }
+
+        if (PlayerController.Instace != null)
+        {
+            PlayerController.Instace.EventSkeetInFocus -= OnSkeetInFocus;
         }
     }
 
@@ -59,44 +64,44 @@ public class GameplayManager : MonoBehaviour
                 isSkeetLaunched = false;
                 EventRoundFinished?.Invoke(Random.value <= skeetFocusPercent);
             }
-            else
-            {
-                if (true)
-                {
-                    var activeSettings = gameplaySettings.SkeetLifetimeSettings.Find(s => s.MinTime >= remainingSkeetTime && s.MaxTime < remainingSkeetTime);
-                    skeetFocusPercent += Time.deltaTime / activeSettings.FocusFillTime;
-                }
-                else
-                {
-                    skeetFocusPercent = 0f;
-                }
-
-                EventFocusChanged?.Invoke(skeetFocusPercent);
-
-
-
-                if (skeetFocusPercent >= 1f)
-                {
-                    isSkeetLaunched = false;
-                    EventRoundFinished?.Invoke(true);
-                }
-            }
         }
     }
 
     private void OnLaunchSkeetClick()
     {
-        if (UnityEngine.Random.value >= 0.5f)
+        if (Random.value >= 0.5f)
         {
-            activeSkeet = SkeetLauncherOne.LaunchSkeet();
+            SkeetLauncherOne.LaunchSkeet();
         }
         else
         {
-            activeSkeet = SkeetLauncherTwo.LaunchSkeet();
+            SkeetLauncherTwo.LaunchSkeet();
         }
 
         skeetFocusPercent = 0f;
         remainingSkeetTime = gameplaySettings.SkeetTime;
         isSkeetLaunched = true;
+    }
+
+    private void OnSkeetInFocus(bool isInFocus)
+    {
+        var activeSettings = gameplaySettings.SkeetLifetimeSettings.Find(s => s.MinTime >= remainingSkeetTime && s.MaxTime < remainingSkeetTime);
+        if (isInFocus)
+        {
+            skeetFocusPercent += Time.deltaTime / activeSettings.FocusFillTime;
+        }
+        else
+        {
+            skeetFocusPercent -= Time.deltaTime / activeSettings.FocusFillTime;
+            skeetFocusPercent = Mathf.Clamp(skeetFocusPercent, 0f, 1f);
+        }
+
+        EventFocusChanged?.Invoke(skeetFocusPercent);
+
+        if (skeetFocusPercent >= 1f)
+        {
+            isSkeetLaunched = false;
+            EventRoundFinished?.Invoke(true);
+        }
     }
 }

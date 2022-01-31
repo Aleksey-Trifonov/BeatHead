@@ -13,8 +13,7 @@ MonoBehaviour:
   m_Name: GameplaySettings
   m_EditorClassIdentifier: 
   SkeetTime: 5
-  LaunchForce: 33
-  LauchForceOffset: 5
+  LaunchForce: 26
   SkeetLifetimeSettings:
   - MinTime: 5
     MaxTime: 4
