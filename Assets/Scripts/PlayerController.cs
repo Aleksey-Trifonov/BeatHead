@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] private float rotationSpeed = 5f;
+    [SerializeField] private float rotationSpeed = 6f;
 
     public event Action<bool> EventSkeetInFocus;
 
@@ -66,9 +66,11 @@ public class PlayerController : MonoBehaviour
         if (Input.touchCount != 0)
         {
             var touch = Input.GetTouch(0);
-            var newDirection = mainCamera.transform.forward + new Vector3(touch.deltaPosition.x, touch.deltaPosition.y, 0);
-            Quaternion newRotation = Quaternion.LookRotation(newDirection);
-            mainCamera.transform.rotation = Quaternion.Slerp(mainCamera.transform.rotation, newRotation, Time.deltaTime * rotationSpeed);
+            var rotation = mainCamera.transform.rotation.eulerAngles + new Vector3(
+                -touch.deltaPosition.y * rotationSpeed * Time.deltaTime, 
+                touch.deltaPosition.x * rotationSpeed * Time.deltaTime, 
+                0);
+            mainCamera.transform.rotation = Quaternion.Euler(rotation);
         }
 #endif
     }
