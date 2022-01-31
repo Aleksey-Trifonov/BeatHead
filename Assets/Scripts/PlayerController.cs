@@ -62,7 +62,7 @@ public class PlayerController : MonoBehaviour
         var newDirection = mainCamera.transform.forward + new Vector3(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"), 0);
         Quaternion newRotation = Quaternion.LookRotation(newDirection);
         mainCamera.transform.rotation = Quaternion.Slerp(mainCamera.transform.rotation, newRotation, Time.deltaTime * rotationSpeed);
-#elif UNITY_ANDROID
+#elif UNITY_ANDROID || UNITY_IOS
         if (Input.touchCount != 0)
         {
             var touch = Input.GetTouch(0);
